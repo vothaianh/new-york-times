@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'nyt' => [
+        'api_url' => env('NYT_API'),
+        'api_key' => env('NYT_KEY'),
+        'api_secret' => env('NYT_SECRET'),
+    ],
+
 ];
