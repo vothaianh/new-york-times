@@ -87,7 +87,17 @@ class BookRepository implements BookRepositoryInterface
             $reviews = $data['reviews'] ?? [];
 
             // Create the book
-            $book = $this->model->create($data);
+            // Check if a book with this title already exists
+            $existingBook = $this->model->where('title', $data['title'])->first();
+            
+            if ($existingBook) {
+                // Update existing book
+                $existingBook->update($data);
+                $book = $existingBook;
+            } else {
+                // Create new book
+                $book = $this->model->create($data);
+            }
 
             // Add book numbers for ISBNs
             if (!empty($isbns)) {
