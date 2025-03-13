@@ -34,19 +34,12 @@ A Laravel application that integrates with the New York Times Best Sellers API t
 
 5. Configure your database in the `.env` file. By default, this project uses SQLite.
 
-6. Add your NYT API credentials to the `.env` file:
-   ```
-   NYT_API=https://api.nytimes.com/svc
-   NYT_KEY=your_api_key_here
-   NYT_SECRET=your_api_secret_here
-   ```
-
-7. Run migrations:
+6. Run migrations:
    ```bash
    php artisan migrate
    ```
 
-8. Start the development server:
+7. Start the development server:
    ```bash
    php artisan serve
    ```
