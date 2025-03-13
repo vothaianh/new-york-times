@@ -76,7 +76,7 @@ class BookService
             // Store the results in the database for future use
             if (isset($data['results']) && is_array($data['results'])) {
                 foreach ($data['results'] as $result) {
-                    $this->storeBookData($result);
+                    $this->createBook($result);
                 }
                 return $data;
             }
@@ -133,7 +133,7 @@ class BookService
      * @param array $data
      * @return void
      */
-    protected function storeBookData(array $data): void
+    protected function createBook(array $data): void
     {
         try {
             $bookData = [
@@ -157,39 +157,6 @@ class BookService
                 'trace' => $e->getTraceAsString(),
                 'data' => $data,
             ]);
-        }
-    }
-
-    /**
-     * Create a new book with its associated book numbers.
-     *
-     * @param array $data
-     * @return Book
-     */
-    public function createBook(array $data): Book
-    {
-        try {
-            DB::beginTransaction();
-
-            // Extract ISBNs from the data
-            $isbns = $data['isbns'] ?? [];
-
-            // Create the book
-            $book = Book::create($data);
-
-            DB::commit();
-
-            return $book;
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            Log::error('Failed to create book', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'data' => $data,
-            ]);
-
-            throw $e;
         }
     }
 
