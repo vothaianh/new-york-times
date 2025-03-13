@@ -32,14 +32,12 @@ A Laravel application that integrates with the New York Times Best Sellers API t
    php artisan key:generate
    ```
 
-5. Configure your database in the `.env` file. By default, this project uses SQLite.
-
-6. Run migrations:
+5. Run migrations:
    ```bash
    php artisan migrate
    ```
 
-7. Start the development server:
+6. Start the development server:
    ```bash
    php artisan serve
    ```
