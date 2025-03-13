@@ -177,9 +177,6 @@ class BookService
             // Create the book
             $book = Book::create($data);
 
-            // Add book numbers
-            $this->addBookNumbers($book, $isbns);
-
             DB::commit();
 
             return $book;
@@ -208,17 +205,8 @@ class BookService
         try {
             DB::beginTransaction();
 
-            // Extract ISBNs from the data
-            $isbns = $data['isbns'] ?? [];
-
             // Update the book
             $book->update($data);
-
-            // Delete existing book numbers
-            $book->bookNumbers()->delete();
-
-            // Add new book numbers
-            $this->addBookNumbers($book, $isbns);
 
             DB::commit();
 
@@ -237,34 +225,6 @@ class BookService
         }
     }
 
-    /**
-     * Add book numbers to a book.
-     *
-     * @param Book $book
-     * @param array $isbns
-     * @return void
-     */
-    protected function addBookNumbers(Book $book, array $isbns): void
-    {
-        foreach ($isbns as $isbn) {
-            if (isset($isbn['isbn10']) && !empty($isbn['isbn10'])) {
-                $book->addBookNumber('isbn10', $isbn['isbn10']);
-            }
-
-            if (isset($isbn['isbn13']) && !empty($isbn['isbn13'])) {
-                $book->addBookNumber('isbn13', $isbn['isbn13']);
-            }
-        }
-
-        // Add primary ISBNs as book numbers if they exist
-        if (!empty($book->primary_isbn10)) {
-            $book->addBookNumber('primary_isbn10', $book->primary_isbn10);
-        }
-
-        if (!empty($book->primary_isbn13)) {
-            $book->addBookNumber('primary_isbn13', $book->primary_isbn13);
-        }
-    }
 
     /**
      * Find books by ISBN.
